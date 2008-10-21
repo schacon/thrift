@@ -13,6 +13,7 @@
 #include <netdb.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <unistd.h>
 
 #include "TSocket.h"
 #include "TServerSocket.h"
