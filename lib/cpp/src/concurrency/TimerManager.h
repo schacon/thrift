@@ -101,6 +101,8 @@ class TimerManager {
   friend class Dispatcher;
   boost::shared_ptr<Dispatcher> dispatcher_;
   boost::shared_ptr<Thread> dispatcherThread_;
+  typedef std::multimap<int64_t, boost::shared_ptr<TimerManager::Task> >::iterator task_iterator;
+  typedef std::pair<task_iterator, task_iterator> task_range;
 };
 
 }}} // facebook::thrift::concurrency
