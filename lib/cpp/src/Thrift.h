@@ -11,6 +11,7 @@
 #include "config.h"
 #endif
 
+#include <sys/types.h>
 #include <netinet/in.h>
 #ifdef HAVE_INTTYPES_H
 #include <inttypes.h>
