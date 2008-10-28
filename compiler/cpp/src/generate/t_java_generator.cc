@@ -147,6 +147,9 @@ class t_java_generator : public t_oop_generator {
   void generate_java_doc                 (std::ofstream& out,
                                           t_doc*     tdoc);
 
+  void generate_java_doc                 (std::ofstream& out,
+                                          std::string docstring);
+
 
   /**
    * Helper rendering functions
@@ -580,6 +583,9 @@ void t_java_generator::generate_java_struct_definition(ofstream &out,
     if (bean_style_) {
       indent(out) << "private ";
     } else {
+      if ((*m_iter)->has_doc()) {
+        generate_java_doc(out, (*m_iter)->get_doc());
+      }
       indent(out) << "public ";
     }
     out << declare_field(*m_iter, false) << endl;
@@ -1235,6 +1241,7 @@ void t_java_generator::generate_java_bean_boilerplate(ofstream& out,
     }
 
     // Simple getter
+    if (field->has_doc()) generate_java_doc(out, field->get_doc());
     indent(out) << "public " << type_name(type);
     if (type->is_base_type() &&
         ((t_base_type*)type)->get_base() == t_base_type::TYPE_BOOL) {
@@ -1249,6 +1256,7 @@ void t_java_generator::generate_java_bean_boilerplate(ofstream& out,
     indent(out) << "}" << endl << endl;
 
     // Simple setter
+    if (field->has_doc()) generate_java_doc(out, field->get_doc());
     indent(out) << "public void set" << cap_name << "(" << type_name(type) <<
       " " << field_name << ") {" << endl;
     indent_up();
@@ -2484,19 +2492,16 @@ string t_java_generator::type_to_enum(t_type* type) {
 void t_java_generator::generate_java_doc(ofstream &out,
                                          t_doc* tdoc) {
   if (tdoc->has_doc()) {
-    indent(out) << "/**" << endl;
-    stringstream docs(tdoc->get_doc(), ios_base::in);
-    while (!docs.eof()) {
-      char line[1024];
-      docs.getline(line, 1024);
-      if (strlen(line) > 0 || !docs.eof()) {  // skip the empty last line
-        indent(out) << " * " << line << endl;
-      }
-    }
-    indent(out) << " */" << endl;
+    generate_java_doc(out, tdoc->get_doc());
   }
 }
 
+void t_java_generator::generate_java_doc(ofstream& out, std::string docstring) {
+  generate_docstring_comment(out,
+    "/**\n",
+    " * ", docstring,
+    " */\n");
+}
 
 THRIFT_REGISTER_GENERATOR(java, "Java",
 "    beans:           Generate bean-style output files.\n"
