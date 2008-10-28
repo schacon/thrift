@@ -14,7 +14,6 @@
 
 #include "globals.h"
 #include "t_generator.h"
-using namespace std;
 
 /**
  * Class with utility methods shared across common object oriented languages.
@@ -48,7 +47,8 @@ class t_oop_generator : public t_generator {
 
   void generate_docstring_comment(std::ofstream& out,
                                   std::string comment_start,
-                                  std::string line_prefix, std::string contents,
+                                  std::string line_prefix,
+                                  std::string contents,
                                   std::string comment_end) {
     if (comment_start != "") indent(out) << comment_start;
     std::stringstream docs(contents, std::ios_base::in);
@@ -56,7 +56,7 @@ class t_oop_generator : public t_generator {
       char line[1024];
       docs.getline(line, 1024);
       if (strlen(line) > 0 || !docs.eof()) {  // skip the empty last line
-        indent(out) << line_prefix << line << endl;
+        indent(out) << line_prefix << line << std::endl;
       }
     }
     if (comment_end != "") indent(out) << comment_end;

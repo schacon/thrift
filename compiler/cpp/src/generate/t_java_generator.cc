@@ -1241,7 +1241,9 @@ void t_java_generator::generate_java_bean_boilerplate(ofstream& out,
     }
 
     // Simple getter
-    if (field->has_doc()) generate_java_doc(out, field->get_doc());
+    if (field->has_doc()) {
+      generate_java_doc(out, field->get_doc());
+    }
     indent(out) << "public " << type_name(type);
     if (type->is_base_type() &&
         ((t_base_type*)type)->get_base() == t_base_type::TYPE_BOOL) {
@@ -1256,7 +1258,9 @@ void t_java_generator::generate_java_bean_boilerplate(ofstream& out,
     indent(out) << "}" << endl << endl;
 
     // Simple setter
-    if (field->has_doc()) generate_java_doc(out, field->get_doc());
+    if (field->has_doc()) {
+      generate_java_doc(out, field->get_doc());
+    }
     indent(out) << "public void set" << cap_name << "(" << type_name(type) <<
       " " << field_name << ") {" << endl;
     indent_up();

@@ -16,14 +16,8 @@ enum Numberz
 
 typedef i64 UserId
 
-/**
- * Struct with docstring!!!
- */
 struct Bonk
 {
-  /**
-   * Field with docstring!
-   */
   1: string message,
   2: i32 type
 }
